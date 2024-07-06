@@ -1,1 +1,1 @@
-# register-credit-card
+# Register your payment card
