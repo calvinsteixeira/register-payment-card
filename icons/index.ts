@@ -1,3 +1,3 @@
-import { Plus } from "lucide-react"
+import { Plus, Heart, EyeOff, Copy  } from "lucide-react"
 
-export { Plus }
+export { Plus, Heart, EyeOff, Copy  }
