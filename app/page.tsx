@@ -1,4 +1,5 @@
 "use client";
+import React from 'react'
 import { useThemeStore } from "@/store";
 import { Button } from "@/components/ui/button";
 import { Plus } from "@/icons";
@@ -6,6 +7,19 @@ import { PaymentCardPreview } from "@/components/index";
 
 export default function Home() {
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
+
+  React.useEffect(() => {
+
+    async function getData() {
+      const result = await fetch('/api/cards', {
+        method: 'GET'
+      })
+      return result
+    }
+
+    getData()
+
+  }, [])
 
   return (
     <main>
