@@ -6,11 +6,11 @@
 }
 
 @layer utilities {
-  .i-sm {
+  .icon-sm {
     @apply h-[0.8rem] w-[0.8rem];
   }
 
-  .i-md {
+  .icon-md {
     @apply h-[1.1rem] w-[1.1rem];
   }
 }

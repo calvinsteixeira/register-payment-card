@@ -18,7 +18,7 @@ export default function Home() {
       <div className="flex flex-col gap-6 mt-8">
         <h3 className="text-sm">Você pode adicionar até <span className="text-primary">5 cartões</span></h3>
         <div>
-          <PaymentCardPreview />
+          <PaymentCardPreview title="Compras online" cardNumber="578954121354456"/>
         </div>
       </div>
     </main>
