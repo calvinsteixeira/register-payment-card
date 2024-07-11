@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { TanStackQueryClientProvider } from '@/Providers';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Register payment card",
-  description: "Register your payment cards quickly",
+  title: 'Register payment card',
+  description: 'Register your payment cards quickly',
 };
 
 export default function RootLayout({
@@ -15,8 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="dark" lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <TanStackQueryClientProvider>
+      <html className="dark" lang="en">
+        <body className={inter.className}>{children}</body>
+      </html>
+    </TanStackQueryClientProvider>
   );
 }

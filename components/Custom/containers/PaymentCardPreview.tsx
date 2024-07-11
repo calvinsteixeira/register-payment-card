@@ -9,52 +9,32 @@ interface PaymentCardPreview {
 }
 
 export default function PaymentCardPreview(props: PaymentCardPreview) {
-  const [cardNumber, setCardNumber] = React.useState<PaymentCardPreview['cardNumber']>(props.cardNumber);
+  const [cardNumber, setCardNumber] = React.useState<PaymentCardPreview['cardNumber'] | null>(null);
+  const [maskedCardNumber, setMaskedCardNumber] = React.useState<string | null>(null)
   const [isMaskedCardNumber, setIsMaskedCardNumber] = React.useState<boolean>(true);
 
-  function toggleNumberCardVisibility(cardNumber: PaymentCardPreview['cardNumber']) {
-    if (isMaskedCardNumber) {
-      setCardNumber(addDotsToNumberCard(props.cardNumber));
-      setIsMaskedCardNumber(false);
-    }
-
-    const lastThreeDigits = cardNumber.slice(-3);
-    const maskedPart = '*'.repeat(cardNumber.length - 3);
-    setCardNumber(addDotsToNumberCard(maskedPart + lastThreeDigits));
-    setIsMaskedCardNumber(true);
-  }
-
-  function addDotsToNumberCard(numberCard: PaymentCardPreview['cardNumber']) {
-    const parts = [];
-    for (let i = numberCard.length; i > 0; i -= 3) {
-      parts.unshift(numberCard.substring(i - 3, i));
-    }
-
-    return parts.join('.');
-  }
-
   React.useEffect(() => {
-    toggleNumberCardVisibility(cardNumber);
-  }, []);
+    const cardNumberWithDots = props.cardNumber.replace(/(\d{3})(?=\d)/g, '$1.');
+    setCardNumber(cardNumberWithDots)
+    const cardNumberWithMaskAndDots = cardNumberWithDots.replace(/\d{3}(?=\.)/g, '***');
+    setMaskedCardNumber(cardNumberWithMaskAndDots)
+  }, [])
 
   return (
-    <div className="border-primary border-[0.1rem] px-4 py-2 rounded-sm transition-all ease-in-out duration-200 cursor-pointer hover:shadow-md hover:shadow-primary box-shad gap-4 flex flex-col">
+    <div className="border-primary sm:max-w-80 border-[0.1rem] px-4 py-2 rounded-sm transition-all ease-in-out duration-200 cursor-pointer box-shad gap-4 flex flex-col">
       <div className="flex flex-row items-end justify-between">
         <p className="font-semibold">{props.title}</p>
         <Heart className="icon-md text-primary" />
       </div>
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-row gap-2 items-center">
-          <p>{cardNumber}</p>
-          <div className='flex flex-row gap-2 hover:text-primary'>
-            <p>Copiar código</p>
-            <Copy className="icon-sm" />
-          </div>
+          <p>{isMaskedCardNumber ? maskedCardNumber : cardNumber}</p>
+          <Copy className="icon-sm" />
         </div>
         {isMaskedCardNumber ? (
-          <EyeOff onClick={() => toggleNumberCardVisibility(cardNumber)} className="icon-md" />
+          <EyeOff onClick={() => setIsMaskedCardNumber(false)} className="icon-md" />
         ) : (
-          <Eye onClick={() => toggleNumberCardVisibility(cardNumber)} className="icon-md" />
+          <Eye onClick={() => setIsMaskedCardNumber(true)} className="icon-md" />
         )}
       </div>
     </div>

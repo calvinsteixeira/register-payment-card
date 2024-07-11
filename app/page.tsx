@@ -1,31 +1,29 @@
 'use client';
-import React from 'react';
+import React, { Suspense, ReactElement } from 'react';
 import { useThemeStore } from '@/store';
-import { Button } from '@/components/ui/button';
+import { Button, Skeleton } from '@/components/index';
 import { Plus } from '@/icons';
 import { PaymentCardPreview } from '@/components/index';
+import { useQuery } from '@tanstack/react-query';
+import { getCards } from '@/services/cards';
+import { Card } from '@/types';
+
+const CardsSkeleton = (): ReactElement => {
+  return (
+    <div className='flex flex-col gap-3'>
+      {Array.from({ length: 8 }, (_, index) => {
+        return <Skeleton key={index} className="bg-muted h-20 sm:w-80" />;
+      })}
+    </div>
+  );
+};
 
 export default function Home() {
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
-
-  React.useEffect(() => {
-    async function getData() {
-      const result = await fetch('/api/cards', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });    
-      
-      if(result.status != 200) {
-
-      } else {
-        const data = await result.json()
-      }
-    }
-
-    getData();
-  }, []);
+  const queryCards = useQuery({
+    queryKey: ['cards'],
+    queryFn: getCards,
+  });
 
   return (
     <main>
@@ -39,9 +37,9 @@ export default function Home() {
         <h3 className="text-sm">
           Você pode adicionar até <span className="text-primary">5 cartões</span>
         </h3>
-        <div>
-          <PaymentCardPreview title="Compras online" cardNumber="578954121354456" />
-        </div>
+
+        {queryCards.isLoading ? <CardsSkeleton/> :
+          queryCards.data.map((card: Card, index: number) => <PaymentCardPreview key={card.id} title={card.name} cardNumber={card.cardNumber} />)}
       </div>
     </main>
   );
