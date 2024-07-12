@@ -1,5 +1,18 @@
 {
   "cards": [
-    { "id": 1, "name": "Compras online", "description": "Cartão para realizar compras em sites", "cardNumber": "654987159357573" }
+    {
+      "id": 1,
+      "name": "Compras online",
+      "description": "Cartão para realizar compras em sites",
+      "cardNumber": "654987159357573",
+      "favorite": false
+    },
+    {
+      "id": 2,
+      "name": "Compras presenciais",
+      "description": "Cartão para realizar compras em locais físicos",
+      "cardNumber": "156987324697851",
+      "favorite": true
+    }
   ]
 }

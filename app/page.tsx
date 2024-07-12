@@ -10,7 +10,7 @@ import { Card } from '@/types';
 
 const CardsSkeleton = (): ReactElement => {
   return (
-    <div className='flex flex-col gap-3'>
+    <div className="flex flex-col gap-3">
       {Array.from({ length: 8 }, (_, index) => {
         return <Skeleton key={index} className="bg-muted h-20 sm:w-80" />;
       })}
@@ -29,7 +29,7 @@ export default function Home() {
     <main>
       <div className="flex flex-row gap-2 items-center">
         <h1 className="text-2xl font-bold">Seus cartões</h1>
-        <Button variant={'outline'} size={'xsm'}>
+        <Button variant={'ghost'} size={'sm'}>
           <Plus className="i-sm mr-1" /> Novo cartão
         </Button>
       </div>
@@ -37,9 +37,15 @@ export default function Home() {
         <h3 className="text-sm">
           Você pode adicionar até <span className="text-primary">5 cartões</span>
         </h3>
-
-        {queryCards.isLoading ? <CardsSkeleton/> :
-          queryCards.data.map((card: Card, index: number) => <PaymentCardPreview key={card.id} title={card.name} cardNumber={card.cardNumber} />)}
+        <div className="flex flex-col sm:flex-row gap-3">
+          {queryCards.isLoading ? (
+            <CardsSkeleton />
+          ) : (
+            queryCards.data.map((card: Card, index: number) => (
+              <PaymentCardPreview key={card.id} title={card.name} cardNumber={card.cardNumber} favorite={card.favorite} />
+            ))
+          )}
+        </div>
       </div>
     </main>
   );

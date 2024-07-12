@@ -6,6 +6,7 @@ import { Eye, EyeOff, Heart } from '@/icons';
 interface PaymentCardPreview {
   title: string;
   cardNumber: string;
+  favorite: boolean;
 }
 
 export default function PaymentCardPreview(props: PaymentCardPreview) {
@@ -21,10 +22,10 @@ export default function PaymentCardPreview(props: PaymentCardPreview) {
   }, []);
 
   return (
-    <div className="border-primary sm:max-w-80 border-[0.1rem] px-4 py-2 rounded-sm transition-all ease-in-out duration-200 cursor-pointer box-shad gap-4 flex flex-col">
+    <div className="border-primary sm:w-80 border-[0.1rem] px-4 py-2 rounded-sm transition-all ease-in-out duration-200 cursor-pointer box-shad gap-4 flex flex-col">
       <div className="flex flex-row items-end justify-between">
         <p className="font-semibold">{props.title}</p>
-        <Heart className="icon-md text-primary" />
+        <Heart fill={props.favorite ? 'currentColor' : ''} className={`icon-md text-primary`} />
       </div>
       <div className="flex flex-row justify-between items-center">
         <p>{isMaskedCardNumber ? maskedCardNumber : cardNumber}</p>

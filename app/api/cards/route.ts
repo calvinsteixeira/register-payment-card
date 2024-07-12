@@ -15,7 +15,7 @@ export async function GET() {
     }
 
     const data = await result.json()
-
+    
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: 'Falha na requisição' }, { status: 500 });
